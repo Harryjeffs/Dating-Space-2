@@ -8,34 +8,93 @@
 
 import Foundation
 import CoreLocation
-import UIKit
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
 
-struct userData {
-    var admin = false
-    var display_name = ""
-    var friend_count = 0
-    var friends = [String: Any]()
-    var user = userStruct()
-    struct userStruct {
-        var ageRange = [0,0]
-        var birthday = ""
-        var email = ""
-        var first_name = ""
-        var last_name = ""
-        var gender = ""
-        var facebook_id = ""
-        var settings = settingsStruct()
-        struct settingsStruct {
-            var banned = false
-            var location = CLLocation()
-            var looking_for = ""
-        }
+import Foundation
+
+// MARK: - Welcome
+struct currentUser: Codable {
+    let uuid: String
+    let userData: UserData
+    let displayName: String
+    let userSettings: UserSettings
+    let friends: [Friend]
+    let admin: Bool
+    let friendCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case uuid
+        case userData = "user_data"
+        case displayName = "display_name"
+        case userSettings = "user_settings"
+        case friends, admin
+        case friendCount = "friend_count"
     }
-    var picture = pictureStruct()
-    struct pictureStruct {
-        var size = CGSize()
-        var is_silhouette = false
-        var url = ""
+}
+
+// MARK: - Friend
+struct Friend: Codable {
+    let firstName, middleName, id, name: String
+    let lastName: String
+
+    enum CodingKeys: String, CodingKey {
+        case firstName = "first_name"
+        case middleName = "middle_name"
+        case id, name
+        case lastName = "last_name"
     }
-    var uuid = ""
+}
+
+// MARK: - UserData
+struct UserData: Codable {
+    let name, id, gender, firstName: String
+    let middleName, birthday: String
+    let picture: Picture
+    let lastName: String
+
+    enum CodingKeys: String, CodingKey {
+        case name, id, gender
+        case firstName = "first_name"
+        case middleName = "middle_name"
+        case birthday, picture
+        case lastName = "last_name"
+    }
+}
+
+// MARK: - Picture
+struct Picture: Codable {
+    let data: DataClass
+}
+
+// MARK: - DataClass
+struct DataClass: Codable {
+    let width, height: Int
+    let url: String
+    let isSilhouette: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case width, height, url
+        case isSilhouette = "is_silhouette"
+    }
+}
+
+// MARK: - UserSettings
+struct UserSettings: Codable {
+    let location: Location
+    let lookingFor: String
+    let banned: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case location
+        case lookingFor = "looking_for"
+        case banned
+    }
+}
+
+// MARK: - Location
+struct Location: Codable {
+    let lat, lng: Double
 }
