@@ -11,10 +11,11 @@ import FirebaseFirestore
 import FirebaseAuth
 import SwiftyJSON
 import Firebase
+import FBSDKCoreKit
 
 class login {
     var db : Firestore!
-    
+
     func createNewUser(_ auth: AuthDataResult,  success : @escaping (_: Bool) -> Void){
         db = Firestore.firestore()
         print("Users details from facebook", auth.additionalUserInfo?.profile)
@@ -28,6 +29,7 @@ class login {
             "display_name": auth.user.displayName as Any,
             "user_data": auth.additionalUserInfo?.profile as Any,
             "admin" : false,
+            "date_created": Timestamp(date: Date()),
             "user_settings" : [
                 "banned": false,
                 "looking_for": "male",
@@ -52,16 +54,37 @@ class login {
     }
     
     func generateUserData(){
-        var ref: DatabaseReference!
-
-        ref = Database.database().reference()
+        db = Firestore.firestore()
         
-        ref.child("users").child(userDetails.data.uniqueID).observeSingleEvent(of: .value, with: { (snapshot) in
-          // Get user value
-          print(snapshot)
-            //userDetails.data.info = userData(admin: snapshot)
-          }) { (error) in
-            print(error.localizedDescription)
+        let params = ["fields": "id, first_name, last_name, middle_name, name, email"]
+        GraphRequest(graphPath: "me/friends", parameters: params).start { (connection, result , error) -> Void in
+            if error != nil {
+                print(error!)
+            }
+            else {
+                if let friendsData = result{
+                    let data = JSON(friendsData)
+                    print(data["data"].arrayObject)
+                    if let friends = data["data"].arrayObject{
+                        let friendData = ["friend_count": data["summary"]["total_count"].int ?? 0,"friends": friends] as [String : Any]
+                        self.db.collection("users").document(userDetails.data.uniqueID).setData(friendData, merge: true)
+                    }
+                }
+            }
+        }
+    }
+    func populateUserData(){
+        db = Firestore.firestore()
+        if let userId = Auth.auth().currentUser?.uid{
+            db.collection("users").document(userId).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let jsonedData = JSON(document.data())
+                    let jDecoder = JSONDecoder()
+                    try jDecoder.decode(currentUser.self, from: Data())
+                } else {
+                    print("Document does not exist")
+                }
+            }
         }
     }
 }
