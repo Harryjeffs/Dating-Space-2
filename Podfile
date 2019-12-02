@@ -19,6 +19,7 @@ target 'Dating Space' do
   pod 'FirebaseCore'
   pod 'FirebaseDatabase'
   pod 'FirebaseFirestore'
+  pod 'Firebase/Storage'
   
   pod 'Hero'
   pod 'ImageSlideshow'
@@ -28,7 +29,6 @@ target 'Dating Space' do
   pod 'NSFWDetector'
   pod 'PARTagPicker'
   pod 'RichEditorView'
-  pod 'SPAlert'
   pod 'SkeletonView'
   pod 'SwiftIcons'
   pod 'SwiftMessages'
@@ -42,6 +42,8 @@ target 'Dating Space' do
   pod 'IQKeyboardManagerSwift'
   pod 'Pageboy', '~> 3.2'
   pod 'SwiftKeychainWrapper'
+  pod 'JGProgressHUD'
+  pod 'OneSignal', '>= 2.11.2', '< 3.0'
 
   
   pod 'FBSDKCoreKit'
@@ -57,5 +59,8 @@ target 'Dating Space' do
     inherit! :search_paths
     # Pods for testing
   end
-
+  
+#  target 'OneSignalNotificationServiceExtension' do
+#    pod 'OneSignal', '>= 2.11.2', '< 3.0'
+#  end
 end

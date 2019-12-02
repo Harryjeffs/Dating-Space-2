@@ -15,7 +15,7 @@ class newPost {
     var db : Firestore!
     var documentID: String = ""
 
-    let storageRef = StorageReference()
+    let storageRef = Storage.storage().reference()
     var imagePathArray = [String]()
     
     func createInitalPost(_ success: @escaping(_: Bool) -> Void ){
@@ -23,21 +23,20 @@ class newPost {
         
         let postUID = UUID().uuidString
         imageUpload(postUID, completion: { imagesArray in
-            self.db.collection("users").document(postUID).setData([
+            self.db.collection("posts").document(postUID).setData([
                 "age" : 0,
                 "cons": onboaringData.cons,
                 "pros": onboaringData.pros,
                 "socials": onboaringData.socials,
                 "description": onboaringData.description,
-                "gender": onboaringData.gender,
+                "gender": onboaringData.gender.rawValue,
                 "images": imagesArray,
-                "admin" : false,
                 "status" : [
                     "approved": 0,
-                    "approving_user": "/users/iefdbkbqwurh239",
+                    "approving_user": "/users/"+onboaringData.friend_id,
                 ],
                 "post_uid": postUID,
-                "timestamp": ServerValue.timestamp(),
+                "timestamp": NSDate().timeIntervalSince1970,
                 "deleted": false,
                 "posted_by": "/users/\(userDetails.data.uniqueID)",
             ]){ err in
@@ -65,12 +64,15 @@ class newPost {
             
             let imagePath = storageRef.child(postId + "/" + imageId + ".png")
             dispatchGroup.enter()
-            if let uploadData = singleImage.pngData() {
-                storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+            
+            if let uploadData = singleImage.jpegData(compressionQuality: 0.75) {
+                let imageMetadata = StorageMetadata()
+                imageMetadata.contentType = "image/jpeg"
+                imagePath.putData(uploadData, metadata: imageMetadata) { (metadata, error) in
                     if error != nil {
                         self.imagePathArray.append(error.debugDescription)
                     } else {
-                        self.imagePathArray.append(imagePath.name)
+                        self.imagePathArray.append(imageId)
                     }
                     dispatchGroup.leave()
                 }

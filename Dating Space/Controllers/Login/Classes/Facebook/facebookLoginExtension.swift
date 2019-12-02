@@ -16,6 +16,7 @@ import FirebaseFirestore
 extension loginViewController : LoginButtonDelegate{
 
     func loginButton(_ loginButton: FBLoginButton!, didCompleteWith result: LoginManagerLoginResult!, error: Error!) {
+
         if let error = error {
             print(error.localizedDescription)
             return
@@ -31,7 +32,7 @@ extension loginViewController : LoginButtonDelegate{
                             return
                         }
                         if let auth = authResults{
-                           if auth.additionalUserInfo?.isNewUser ?? false{
+                           if true{
                                 print("New User")
                                 let register = login()
                                 register.createNewUser(auth){ (success) -> Void in

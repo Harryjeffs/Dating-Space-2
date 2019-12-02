@@ -12,10 +12,10 @@ import FirebaseAuth
 import SwiftyJSON
 import Firebase
 import FBSDKCoreKit
+import PushNotifications
 
 class login {
     var db : Firestore!
-
     func createNewUser(_ auth: AuthDataResult,  success : @escaping (_: Bool) -> Void){
         db = Firestore.firestore()
         print("Users details from facebook", auth.additionalUserInfo?.profile)
@@ -29,7 +29,7 @@ class login {
             "display_name": auth.user.displayName as Any,
             "user_data": auth.additionalUserInfo?.profile as Any,
             "admin" : false,
-            "date_created": Timestamp(date: Date()),
+            "date_created": NSDate().timeIntervalSince1970,
             "user_settings" : [
                 "banned": false,
                 "looking_for": "male",
@@ -78,9 +78,11 @@ class login {
         if let userId = Auth.auth().currentUser?.uid{
             db.collection("users").document(userId).getDocument { (document, error) in
                 if let document = document, document.exists {
-                    let jsonedData = JSON(document.data())
-                    let jDecoder = JSONDecoder()
-                    try jDecoder.decode(currentUser.self, from: Data())
+                    print(JSON(document.data()))
+                    if let jsonData = try? JSONSerialization.data(withJSONObject:document.data()!){
+                        let converted = try? JSONDecoder().decode(currentUser.self, from: jsonData)
+                        userDetails.data.info = converted
+                    }
                 } else {
                     print("Document does not exist")
                 }

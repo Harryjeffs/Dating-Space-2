@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-class userDetails :NSObject {
+class userDetails : NSObject {
     static let data: userDetails = userDetails()
     
     //Relating to the users location services.
@@ -22,7 +22,7 @@ class userDetails :NSObject {
     var uniqueID = "unspecfied"
     
     //where we add everything to the user.
-    var info = userData()
+    var info : currentUser?
     
     // If user has loaded the app and have loaded their categories
     var isLoggedIn = false

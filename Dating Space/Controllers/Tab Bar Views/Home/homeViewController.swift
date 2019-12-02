@@ -8,7 +8,8 @@
 
 import UIKit
 import VerticalCardSwiper
-
+import FBSDKCoreKit
+import SwiftyJSON
 
 class homeViewController: UIViewController {
     
@@ -50,5 +51,9 @@ class homeViewController: UIViewController {
                
         tabBarController?.tabBar.items?[4].title = "Settings"
         tabBarController?.tabBar.items?[4].setIcon(icon: .icofont(.settings), size: nil, textColor: .lightGray, backgroundColor: .clear, selectedTextColor: UIColor(hexString: "#0068DA"), selectedBackgroundColor: .clear)
+        
+        //login().generateUserData()
+    //    login().registerForPushNotifications()
+        notifications().sendNotification(user_id: [""], type: .approve_post)
     }
 }

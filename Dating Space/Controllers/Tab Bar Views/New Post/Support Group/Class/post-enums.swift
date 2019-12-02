@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum genders {
+enum genders : String, Codable{
     case male
     case female
     case unspecifed
@@ -17,6 +17,7 @@ enum genders {
 
 struct onboaringData{
     static var name: String = ""
+    static var friend_id = ""
     static var description: String = ""
     static var gender: genders = .unspecifed
     static var cons = [String]()

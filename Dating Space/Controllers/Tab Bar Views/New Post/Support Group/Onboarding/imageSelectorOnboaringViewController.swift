@@ -102,7 +102,10 @@ class imageSelectorOnboaringViewController: UIViewController {
                 self.collectionView.reloadData()
                 picker.dismiss(animated: true, completion: nil)
                 onboaringData.photos = self.selectedImages
-                NotificationCenter.default.post(name: Notification.Name("toNextPage"), object: nil)
+                newPost().createInitalPost({_ in
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                    NotificationCenter.default.post(name: Notification.Name("toNextPage"), object: nil)
+                })
                 
             }
             self.present(picker, animated: true, completion: nil)

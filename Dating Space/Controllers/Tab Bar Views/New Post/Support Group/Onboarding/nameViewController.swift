@@ -10,6 +10,7 @@ import UIKit
 import TextFieldEffects
 import Neon
 import SwiftIcons
+import JGProgressHUD
 
 class nameViewController: UIViewController {
 
@@ -22,7 +23,7 @@ class nameViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         
         textField.frame = CGRect(x: 0, y: 0, width: view.width * 0.9, height: 70)
-        textField.placeholder = "Name"
+        textField.placeholder = "Full Name"
         textField.placeholderFontScale = 2.0
         textField.bounds = CGRect(x: 0, y: 0, width: view.width * 0.9, height: 70)
         textField.isUserInteractionEnabled = true
@@ -67,9 +68,35 @@ class nameViewController: UIViewController {
     }
     @objc func toNe(){
         if let text = textField.text{
+            
+            let hud = JGProgressHUD(style: .dark)
+            hud.textLabel.text = "Loading"
+            hud.show(in: view)
+            
             onboaringData.name = text
-            NotificationCenter.default.post(name: Notification.Name("toNextPage"), object: nil)
+            var count = 0
+            let nameElements = text.lowercased().components(separatedBy: " ")
+            print(userDetails.data.info!.friends)
+            for friendsName in userDetails.data.info!.friends{
+                if Tools.levenshtein(aStr: nameElements[0], bStr: friendsName.firstName.lowercased()) < 2 && Tools.levenshtein(aStr: nameElements[1], bStr: friendsName.lastName.lowercased()) < 3 {
+                    count += 1
+                    hud.dismiss()
+                    EZAlertController.alert("We've found a potential match!", message: "Is \(friendsName.name) the person you wanted to create this post for?", buttons: ["Yes", "No"]) { (alertAction, position) -> Void in
+                        if position == 0 {
+                            onboaringData.friend_id = friendsName.id
+                            NotificationCenter.default.post(name: Notification.Name("toNextPage"), object: nil)
+                        } else if position == 1 {
+                            print("Second button clicked")
+                        }
+                    }
+                }
+            }
+            if count == 0{
+                hud.dismiss()
+                EZAlertController.alert("Unfortunate", message: "We couldn't find a friend with this name. Make sure they are your friend on facebook & they have the app installed, and have signed in.")
+            }
         }
+        
     }
 }
 extension UIViewController{

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 class genderOnboardingViewController: UIViewController {
 
     let maleGender = UIView()
@@ -19,9 +18,7 @@ class genderOnboardingViewController: UIViewController {
     var heightWidth = 100
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.navigationBar.isHidden = true
-        
+                
         maleGender.frame = CGRect(x: 0, y: 0, width: view.width / 2, height: view.height)
         maleGender.backgroundColor = .flatSkyBlueColor()
         maleGender.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(maleAccept)))

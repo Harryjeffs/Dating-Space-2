@@ -12,7 +12,11 @@ class notificationsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        let center = UNUserNotificationCenter.current()
+        center.removeAllDeliveredNotifications() // To remove all delivered notifications
+        center.removeAllPendingNotificationRequests() // To remove all pending notifications which are not delivered yet but scheduled.
+        
         // Do any additional setup after loading the view.
     }
     

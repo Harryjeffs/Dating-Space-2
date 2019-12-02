@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   notification_defaults.plist
+   Dating Space
+
+   Created by Harry Jeffs on 30/11/19.
+   Copyright (c) 2019 toPick. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+        <key>approve_post</key>
+        <string>{{name}} has created a profile for you! Click to confirm</string>
+        <key>post_confirmed</key>
+        <string>{{name}} has approved your post!</string>
+        <key>post_denied</key>
+        <string>{{name}} has declined your post.</string>
+    </dict>
+</plist>

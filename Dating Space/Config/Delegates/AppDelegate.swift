@@ -10,13 +10,19 @@ import UIKit
 import Firebase
 import CoreLocation
 import IQKeyboardManagerSwift
+import UserNotifications
+import FirebaseAnalytics
+import OneSignal
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
     
     var locationManager : CLLocationManager = CLLocationManager()
+   // let pushNotifications = PushNotifications.shared
+    //let remoteConfig: RemoteConfig!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
@@ -24,9 +30,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
+                
         IQKeyboardManager.shared.enable = true
         
+        //SETTTING UP PUSH NOTIFICATIONS
+        OneSignal.initWithLaunchOptions(launchOptions,
+        appId: "78bc987c-434b-4ca3-99fc-fd29f97dac22",
+        handleNotificationAction: nil,
+        settings: [kOSSettingsKeyAutoPrompt: false])
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
+
+        // Recommend moving the below line to prompt for push after informing the user about
+        // how your app will use them.
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            print("User accepted notifications: \(accepted)")
+        })
         
         return true
     }
@@ -50,5 +69,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             userDetails.data.currentLocation = locationObj
         }
     }
+    func registerForPushNotifications() {
+      UNUserNotificationCenter.current()
+        .requestAuthorization(options: [.alert, .sound, .badge]) {
+          [weak self] granted, error in
+            
+          print("Permission granted: \(granted)")
+          guard granted else { return }
+          self?.getNotificationSettings()
+      }
+    }
+    func getNotificationSettings() {
+      UNUserNotificationCenter.current().getNotificationSettings { settings in
+        print("Notification settings: \(settings)")
+        
+        guard settings.authorizationStatus == .authorized else { return }
+        DispatchQueue.main.async {
+          UIApplication.shared.registerForRemoteNotifications()
+        }
+      }
+    }
+
+//    func application(_ application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        self.pushNotifications.registerDeviceToken(deviceToken)
+//
+//      let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+//      let token = tokenParts.joined()
+//      print("Device Token: \(token)")
+//    }
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//        self.pushNotifications.handleNotification(userInfo: userInfo)
+//    }
+//    func application(_ application: UIApplication,didFailToRegisterForRemoteNotificationsWithError error: Error) {
+//      print("Failed to register: \(error)")
+//    }
 }
 

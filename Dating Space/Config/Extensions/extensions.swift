@@ -76,3 +76,10 @@ extension Date {
         return Calendar.current.dateComponents([.year], from: self, to: Date()).year!
     }
 }
+extension UIButton {
+    open override var isEnabled: Bool{
+        didSet {
+            alpha = isEnabled ? 1.0 : 0.5
+        }
+    }
+}

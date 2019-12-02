@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import CyaneaOctopus
-
+import OneSignal
 class initalViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -17,9 +17,15 @@ class initalViewController: UIViewController {
     
         DispatchQueue.main.async(){
             UIColor.gradientColor(view: self.view, colors: [UIColor(hexString: "#00d2ff"), UIColor(hexString: "#3a47d5")], direction: .leftToRight)
-            if Auth.auth().currentUser != nil {
+            if let user = Auth.auth().currentUser{
                 print("User is signed in.")
+                print(user.uid)
                 userDetails.data.isLoggedIn = true
+                userDetails.data.uniqueID = user.uid
+                
+                OneSignal.setExternalUserId(user.uid)
+
+               // login().populateUserData()
                 self.performSegue(withIdentifier: "initalToHome", sender: self)
             } else {
                 print("User is not signed in.")

@@ -8,10 +8,13 @@
 
 import UIKit
 import PARTagPicker
+import SwiftIcons
 
 class prosOnboardingViewController: UIViewController, PARTagPickerDelegate {
+    
     let tagController = PARTagPickerViewController()
     let colors = PARTagColorReference()
+    let addButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +45,23 @@ class prosOnboardingViewController: UIViewController, PARTagPickerDelegate {
         tagController.tagColorRef = colors
         
         tagController.view.anchorInCenter(width: view.bounds.width, height: COLLECTION_VIEW_HEIGHT)
+        
+        addButton.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        addButton.roundCorners(corners: .allCorners, radius: addButton.height / 2)
+        addButton.backgroundColor = .flatSkyBlueColor()
+        addButton.setIcon(icon: .icofont(.arrowRight), color: .white, forState: .normal)
+        UIColor.gradientColor(view: addButton, colors: [UIColor(hexString: "#F53803"),UIColor(hexString: "#F5D020")], direction: .leftToRight)
+        addButton.addTarget(self, action: #selector(nextPost), for: .touchUpInside)
+        addButton.dropShadow()
+        addButton.isEnabled = false
+        view.addSubview(addButton)
+        addButton.anchorInCorner(.bottomRight, xPad: 10, yPad: navigationController?.navigationBar.frame.size.height ?? 100, width: addButton.width, height: addButton.height)
     }
     
+    @objc func nextPost(){
+        onboaringData.pros = tagController.chosenTags as! [String]
+        NotificationCenter.default.post(name: Notification.Name("toNextPage"), object: nil)
+    }
 
     /*
     // MARK: - Navigation
@@ -54,6 +72,13 @@ class prosOnboardingViewController: UIViewController, PARTagPickerDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    func chosenTagsWereUpdated(inTagPicker tagPicker: PARTagPickerViewController!) {
+        if tagPicker.chosenTags?.count ?? 0 > 0{
+            addButton.isEnabled = true
+        }else{
+            addButton.isEnabled = false
+        }
+    }
     func tagPicker(_ tagPicker: PARTagPickerViewController!, visibilityChangedTo state: PARTagPickerVisibilityState){
            var newHeight: CGFloat = 0
            if state == .topAndBottom {
