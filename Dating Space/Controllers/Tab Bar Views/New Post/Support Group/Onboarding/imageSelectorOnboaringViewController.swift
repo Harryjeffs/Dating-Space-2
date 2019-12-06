@@ -103,7 +103,6 @@ class imageSelectorOnboaringViewController: UIViewController {
                 picker.dismiss(animated: true, completion: nil)
                 onboaringData.photos = self.selectedImages
                 newPost().createInitalPost({_ in
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
                     NotificationCenter.default.post(name: Notification.Name("toNextPage"), object: nil)
                 })
                 

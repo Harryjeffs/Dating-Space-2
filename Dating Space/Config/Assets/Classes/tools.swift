@@ -68,7 +68,7 @@ class Tools {
             for j in 1...b.count {
                 if a[i-1] == b[j-1] {
                     dist[i, j] = dist[i-1, j-1]  // noop
-                } else {
+                } else { 
                     dist[i, j] = min(
                         numbers: dist[i-1, j] + 1,  // deletion
                         dist[i, j-1] + 1,  // insertion

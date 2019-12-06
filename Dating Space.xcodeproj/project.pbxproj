@@ -38,6 +38,7 @@
 		369C2CFE23386D9900755A60 /* structLoginData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369C2CFD23386D9900755A60 /* structLoginData.swift */; };
 		36AC761F233D996900E59078 /* newPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AC761E233D996900E59078 /* newPost.swift */; };
 		36AC7622233D9A5000E59078 /* nameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AC7621233D9A5000E59078 /* nameViewController.swift */; };
+		36B8DC63239A0F980044111A /* notificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B8DC62239A0F960044111A /* notificationCell.swift */; };
 		36D1366B233C8DA10032D886 /* tabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D1366A233C8DA00032D886 /* tabBarController.swift */; };
 		36D1366E233C8E1B0032D886 /* tabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D1366D233C8E1B0032D886 /* tabBarView.swift */; };
 		36D13670233C918B0032D886 /* messagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D1366F233C918B0032D886 /* messagesViewController.swift */; };
@@ -134,6 +135,7 @@
 		369C2CFD23386D9900755A60 /* structLoginData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structLoginData.swift; sourceTree = "<group>"; };
 		36AC761E233D996900E59078 /* newPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newPost.swift; sourceTree = "<group>"; };
 		36AC7621233D9A5000E59078 /* nameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nameViewController.swift; sourceTree = "<group>"; };
+		36B8DC62239A0F960044111A /* notificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notificationCell.swift; sourceTree = "<group>"; };
 		36D1366A233C8DA00032D886 /* tabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tabBarController.swift; sourceTree = "<group>"; };
 		36D1366D233C8E1B0032D886 /* tabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tabBarView.swift; sourceTree = "<group>"; };
 		36D1366F233C918B0032D886 /* messagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messagesViewController.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				36D13675233C931C0032D886 /* notificationsViewController.swift */,
+				36B8DC62239A0F960044111A /* notificationCell.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -849,6 +852,7 @@
 				363863FC233DBE6A00BC6504 /* SwiftyOnboard.swift in Sources */,
 				36D13674233C92DB0032D886 /* newPostViewController.swift in Sources */,
 				36E3120123372D2A00549699 /* SceneDelegate.swift in Sources */,
+				36B8DC63239A0F980044111A /* notificationCell.swift in Sources */,
 				3698204223404FE5001A6B77 /* socialOnboardingPopup.swift in Sources */,
 				366D0CBF2391DF2F00CF3298 /* class.notifications.swift in Sources */,
 				36E3124D2337675200549699 /* facebookLoginExtension.swift in Sources */,

@@ -18,7 +18,7 @@ class login {
     var db : Firestore!
     func createNewUser(_ auth: AuthDataResult,  success : @escaping (_: Bool) -> Void){
         db = Firestore.firestore()
-        print("Users details from facebook", auth.additionalUserInfo?.profile)
+        print("Users details from facebook", auth.additionalUserInfo?.profile ?? "")
         self.db.collection("users").document(auth.user.uid).setData([
             "friends": [
                 "name": "none",
@@ -64,7 +64,6 @@ class login {
             else {
                 if let friendsData = result{
                     let data = JSON(friendsData)
-                    print(data["data"].arrayObject)
                     if let friends = data["data"].arrayObject{
                         let friendData = ["friend_count": data["summary"]["total_count"].int ?? 0,"friends": friends] as [String : Any]
                         self.db.collection("users").document(userDetails.data.uniqueID).setData(friendData, merge: true)

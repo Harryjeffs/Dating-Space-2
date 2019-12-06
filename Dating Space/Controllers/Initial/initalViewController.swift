@@ -24,7 +24,7 @@ class initalViewController: UIViewController {
                 userDetails.data.uniqueID = user.uid
                 
                 OneSignal.setExternalUserId(user.uid)
-
+                notifications().sendNotification(user_id: ["DnIxqgwI7uMfHaXUrwzmosNke252"], type: .approve_post, name: "James", post_id: "B7ABFE1A-EC8D-4517-9561-682AF88EB8C3")
                // login().populateUserData()
                 self.performSegue(withIdentifier: "initalToHome", sender: self)
             } else {

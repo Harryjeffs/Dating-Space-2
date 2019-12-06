@@ -54,6 +54,5 @@ class homeViewController: UIViewController {
         
         //login().generateUserData()
     //    login().registerForPushNotifications()
-        notifications().sendNotification(user_id: [""], type: .approve_post)
     }
 }
